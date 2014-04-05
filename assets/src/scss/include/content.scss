@@ -1,0 +1,15 @@
+$color-background: #efefef;
+$color-text: #888;
+
+body {
+	background: $color-background !important;
+	color: $color-text !important;
+	line-height: 1;
+
+	h1 {
+		text-align: center
+	}
+	p {
+		text-align: justify;
+	}
+}
