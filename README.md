@@ -49,3 +49,10 @@ This default config is made for basic app, but if you want to use it with Wordpr
 When you've comment or not Sass and Less for example, simply run
 
     grunt
+
+
+## TODO
+
+- auto Javascript folder to uglify containing jquery from bower
+- test ftp deploy
+- test sourcemap uglify settings

@@ -6,14 +6,14 @@ module.exports = (grunt) ->
 		root: 	''
 		bower:	'bower_components'
 
-		lib:		'assets/src/lib'
+		lib:	'assets/src/lib'
 		coffee:	'assets/src/coffee'
-		scss:		'assets/src/scss'
-		less:		'assets/src/less'
+		scss:	'assets/src/scss'
+		less:	'assets/src/less'
 		cssIn:	'assets/src/css'
 		imgIn:	'assets/src/img'
 
-		js:			'assets/build/js'
+		js:		'assets/build/js'
 		cssOut:	'assets/build/css'
 		imgOut:	'assets/build/img'
 
@@ -36,14 +36,6 @@ module.exports = (grunt) ->
 				options: 
 					open: true
 				base: '.'
-
-		# Php livereload
-		php:
-			dist:
-				options:
-					keepalive: true
-					open: true
-					port: 8085
 
 		# Image minification
 		imagemin:
@@ -100,7 +92,7 @@ module.exports = (grunt) ->
 			all:
 				dest: '<%= dir.js %>/_bower.js'
 				exclude:
-						'jquery'
+					'jquery'
 				bowerOptions:
 					relative: false
 
@@ -110,41 +102,70 @@ module.exports = (grunt) ->
 
 		# Uglify all javascript
 		uglify:
-				my_target:
-					files:
-						'<%= dir.js %>/scripts.min.js': '<%= dir.js %>/_bower.js'
-						'<%= dir.js %>/main.min.js': '<%= dir.js %>/main.js'
+			my_target:
+				# options:
+				# 	beautify: true
+				# 	sourceMap: true
+				# 	sourceMapName: 
+				# 		'<%= dir.js %>/_bower.js'
+				# 		'<%= dir.js %>/main.js'
+				files:
+					'<%= dir.js %>/scripts.min.js': '<%= dir.js %>/_bower.js'
+					'<%= dir.js %>/main.min.js': '<%= dir.js %>/main.js'
 
 
 		# Clean folder
 		clean: [
 			'<%= dir.js %>/_bower.js'
 			'<%= dir.js %>/main.js'
+			'<%= dir.js %>/*.map'
 			'<%= dir.cssOut %>/main.css'
 			'<%= dir.cssOut %>/styles.css'
+			'<%= dir.cssOut %>/*.map'
 		]
 
 		# Deploy on FTP
 		'ftp-deploy':
-		  build:
-		    auth:
-		      host: 'server.com'
-		      authKey: '###'
-		      port: 21
-		    src: ''
-		    dest: '/path'
-		    exclusions: [
-		    	'.DS_Store'
-		    	'Thumbs.db'
-		    	'node_modules'
-		    	'bower_components'
-		    	'assets/src'
-		    ]
+			build:
+				auth:
+					host: 'server.com'
+					port: 21
+					authKey: '###'
+				src: '.'
+				dest: '/www/'
+				exclusions: [
+					'.ftppass'
+					'.gitignore'
+					'README.md'
+					'gruntfile.coffee'
+					'package.json'
+					'bower.json'
+					'.sass-cache'
+					'.DS_Store'
+					'Thumbs.db'
+					'node_modules'
+					'bower_components'
+					'assets/src'
+				]
 
+		# Notifications
+		notify_hooks:
+			options:
+				enabled: true
+				max_jshint_notifications: 5
+				title: 'Project Name'
+			watch:
+				options:
+					title: 'Task Complete'
+					message: 'SASS and Uglify finished running'
+				server:
+					options:
+						message: 'Server is ready!'
+				 
 
 		# Watch
 		watch:
-			php:
+			others:
 				files: [
 					'<%= dir.root %>/*.php'
 					'<%= dir.root %>/*.html'
@@ -152,16 +173,16 @@ module.exports = (grunt) ->
 				]
 			# less:
 			# 	files: '<%= dir.less %>/**/*.less' 
-			# 	tasks: ['less', 'clean']
+			# 	tasks: ['less']
 			sass:
 				files: '<%= dir.scss %>/**/*.scss' 
-				tasks: ['sass', 'clean']
+				tasks: ['sass']
 			styles:
 				files: '<%= dir.cssIn %>/*.css'
-				tasks: ['cssmin', 'clean']
+				tasks: ['cssmin']
 			scripts: 
 				files: '<%= dir.coffee %>/*.coffee'
-				tasks : ['coffee', 'jshint', 'uglify', 'clean']
+				tasks : ['coffee', 'jshint', 'uglify']
 			packages:
 				files: '<%= dir.bower %>'
 				tasks: ['bower_concat', 'uglify']
@@ -173,9 +194,13 @@ module.exports = (grunt) ->
 				nospawn: true
 
 
-	grunt.registerTask 'default', [
+	# grunt.task.run 'notify_hooks'
+
+	grunt.registerTask 'remove', [
+		'clean'
+	]	
+	grunt.registerTask 'app', [
 		'connect:livereload'
-		# 'php'
 		'imagemin'
 		# 'less'
 		'sass'
@@ -185,5 +210,17 @@ module.exports = (grunt) ->
 		'jshint'
 		'uglify'
 		'watch'
-		'clean'
+		'notify_hooks'
+	]
+
+	grunt.registerTask 'wp', [
+		'imagemin'
+		# 'less'
+		'sass'
+		'cssmin'
+		'coffee'
+		'bower_concat'
+		'jshint'
+		'uglify'
+		'watch'
 	]
