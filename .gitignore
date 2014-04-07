@@ -33,3 +33,5 @@ bower_components
 
 # App
 assets/build
+
+.sass-cache
