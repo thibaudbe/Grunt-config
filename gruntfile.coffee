@@ -148,7 +148,7 @@ module.exports = (grunt) ->
 					'assets/src'
 				]
 
-		# Notifications
+		# Notifications (to test)
 		notify_hooks:
 			options:
 				enabled: true
