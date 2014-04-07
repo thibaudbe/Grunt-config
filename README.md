@@ -44,12 +44,11 @@ Add another components from **Bower** or anywhere with link
 
 ## Usage
 
-This default config is made for basic app, but if you want to use it with Wordpress, comment `connect:livereload` in **registerTask**. If not, it will conflicts with MAMP.
+When you've comment or not Sass and Less for example, and simply run
 
-When you've comment or not Sass and Less for example, simply run
-
-    grunt
-
+    grunt app     # for app development
+    grunt wp      # for wordpress development
+    
 
 ## TODO
 
