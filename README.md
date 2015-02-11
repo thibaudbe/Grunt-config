@@ -55,3 +55,5 @@ When you've comment or not Sass and Less for example, and simply run
 - auto Javascript folder to uglify containing jquery from bower
 - test ftp deploy
 - test sourcemap uglify settings
+
+[![Analytics](https://ga-beacon.appspot.com/UA-59640055-1/Grunt-config/readme)](https://github.com/igrigorik/ga-beacon)
